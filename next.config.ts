@@ -1,14 +1,13 @@
-// next.config.ts
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "export", // Enables static exports
-  trailingSlash: true, // Helps with static hosting routing
+  output: "export", // Remove any reference to 'next export'
+  trailingSlash: true,
   images: {
-    unoptimized: true, // Required for static exports
+    unoptimized: true,
   },
-  // Optional: Add if using custom domain/subpath
-  // basePath: process.env.NODE_ENV === 'production' ? '/your-subpath' : '',
+  // Optional for SPA behavior:
+
 };
 
 export default nextConfig;
