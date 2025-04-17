@@ -19,7 +19,7 @@ import Container from '@mui/material/Container';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import CloseIcon from '@mui/icons-material/Close';
 
-const NAV_MENU = ['Shop', 'Become a Supplier', 'Our Team'];
+const NAV_MENU = ['Shop', 'Become a Supplier', 'Our Story'];
 const SIDEBAR_MENU = [...NAV_MENU, 'About Us'];
 const CART_ITEMS = ['Profile', 'My Account'];
 
@@ -42,6 +42,7 @@ export default function NavBar() {
   }, []);
 
   const openSidebar = useCallback(() => setIsSidebarOpen(true), []);
+  
   const closeSidebar = useCallback((event: React.KeyboardEvent | React.MouseEvent) => {
     if (
       event.type === 'keydown' &&
@@ -78,7 +79,13 @@ export default function NavBar() {
   if (!mounted) return null;
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: 'black' }}>
+    
+    <AppBar 
+    position="fixed"
+
+    sx={{ backgroundColor: {xs: 'black', sm: 'rgba(0, 0, 0, 0)'}, boxShadow: {sm: 'none'}, zIndex: { lg: 1000}}}>
+      
+      
       <Container maxWidth="xl">
         <Toolbar disableGutters sx={{
           display: 'flex',
@@ -123,7 +130,8 @@ export default function NavBar() {
               letterSpacing: 2,
               fontWeight: 'bold',
               flex: { xs: 1, sm: 'none' },
-              textAlign: { xs: 'center', sm: 'left' }
+              textAlign: { xs: 'center', sm: 'left' },
+              
             }}
           >
             Fish & Fig
@@ -146,8 +154,9 @@ export default function NavBar() {
             {NAV_MENU.map((item) => (
               <Typography
                 key={item}
-                variant="body1"
-                sx={{ cursor: 'pointer', '&:hover': { opacity: 0.8 } }}
+                variant="h6"
+                fontWeight={900}
+                sx={{ cursor: 'pointer', '&:hover': { opacity: 0.8 },  }}
               >
                 {item}
               </Typography>
@@ -161,7 +170,7 @@ export default function NavBar() {
                 size="large"
                 color="inherit"
                 onClick={handleMenuOpen}
-                sx={{ ml: 'auto' }}
+                sx={{ ml: 'auto',  }}
               >
                 <ShoppingCartOutlinedIcon />
               </IconButton>
