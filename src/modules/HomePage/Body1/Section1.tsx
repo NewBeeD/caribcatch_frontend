@@ -1,17 +1,21 @@
 import Image from "next/image";
 
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+
 const Section1 = () => {
   return (
-    <section
-      style={{
-        position: "relative",
-        height: "65vh",
-        marginTop: "-64px",
-        paddingTop: "64px",
-      }}
+    
+    <Box
+    component='section'
+
+      sx={{position: "relative",
+        height: {xs: "55vh", sm: '65vh'},
+        marginTop: {xs: "50px", sm: '0px'},
+        paddingTop: "64px",}}
     >
       {/* Background Image */}
-      <div
+      <Box
         style={{
           position: "absolute",
           top: 0,
@@ -29,10 +33,10 @@ const Section1 = () => {
           alt="Main Body Image"
           quality={90}
         />
-      </div>
+      </Box>
 
       {/* Centered Content with Enhancements */}
-      <div
+      <Box
         style={{
           position: "absolute",
           top: 0,
@@ -54,8 +58,8 @@ const Section1 = () => {
         style={{ maxWidth: "600px", fontSize: "1.5rem" }}>
           Serving the highest quality produce to our quality customers.
         </h1>
-      </div>
-    </section>
+      </Box>
+    </Box>
   );
 };
 

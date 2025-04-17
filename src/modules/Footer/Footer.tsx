@@ -1,33 +1,45 @@
-// components/Footer.tsx
-'use client';
 
-import { Box, Container, Typography, Link } from '@mui/material';
-import NextLink from 'next/link';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
+
+import Link from 'next/link';
 
 export default function Footer() {
   return (
     <Box
       component="footer"
       sx={{
-        mt: 'auto',
-        py: 3,
-        px: 2,
-        backgroundColor: (theme) => theme.palette.background.paper,
-        borderTop: (theme) => `1px solid ${theme.palette.divider}`,
+        marginTop: 'auto',
+        paddingTop: 3,
+        paddingX: 2,
+        paddingBottom: {xs: 3},
+        backgroundColor: 'black'
+        
       }}
     >
       <Container maxWidth="lg">
-        <Typography variant="body2" color="text.secondary" align="center">
+        <Typography variant="body2" color="white" align="center">
           © {new Date().getFullYear()} Fresh Caribbean Produce
         </Typography>
-        <Typography variant="body2" color="text.secondary" align="center" mt={1}>
-          <Link component={NextLink} href="/about" color="inherit">
+        <Typography variant="body2" color="white" align="center" mt={1}>
+          <Link href="/about" color="inherit">
             About Us
           </Link>
           {' | '}
-          <Link component={NextLink} href="/contact" color="inherit">
+          <Link href="/contact" color="inherit">
             Contact
           </Link>
+
+          
+        </Typography>
+
+        <Typography 
+        color="white"
+        variant="body2"
+        textAlign='center'
+        sx={{ paddingTop: {xs: 2}}}>
+          Designed by: Danphil Daniel
         </Typography>
       </Container>
     </Box>

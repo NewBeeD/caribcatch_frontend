@@ -16,7 +16,8 @@ const Community = () => {
     textAlign='center'
     justifyContent='center'
     alignItems='center'
-    margin='auto'>
+    margin='auto'
+    paddingBottom={{ xs: 6}}>
 
       <Stack
       minHeight='100%'
@@ -44,7 +45,7 @@ const Community = () => {
           <Typography 
           sx={{ fontSize: '10px', textAlign: 'left'}}
           >
-          “Born from a fisherman’s boat and a farmer’s field, we started by hand-delivering Dominica’s freshest harvests and catch to neighbors. Today, we’re your direct link to the island’s vibrant flavors—and the hardworking hands that bring them to life.”
+          "We’re more than a marketplace—we’re a movement. Every order supports Dominican farmers and fishers, preserves traditional agriculture, and helps build sustainable food systems for future generations. Together, we’re growing stronger communities, one harvest at a time."
           </Typography>
 
         </Box>

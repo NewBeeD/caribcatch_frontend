@@ -10,6 +10,8 @@ import BecomeaSupplier from "@/modules/HomePage/Body1/BecomeaSupplier";
 import OurStory from "@/modules/HomePage/Body1/OurStory";
 import Community from "@/modules/HomePage/Body1/Community";
 
+import Footer from "@/modules/Footer/Footer";
+
 
 
 export default function Home() {
@@ -19,20 +21,27 @@ export default function Home() {
   return (
     
     <Box
-    width="100vw"
-    height="100vh"
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh',
+        width: '100%',
+        overflowX: 'hidden', // Prevents horizontal scroll
+      }}
     >
+      {/* Main content container */}
+      <Box component="main" sx={{ flex: 1 }}>
+        <Section1 />
+        <OurMission />
+        <OurOperation />
+        <ProductList />
+        <BecomeaSupplier />
+        <OurStory />
+        <Community />
+      </Box>
 
-      <Section1 />
-      <OurMission />
-      <OurOperation />
-      <ProductList />
-      <BecomeaSupplier />
-      <OurStory />
-      <Community />
-
-
-
+      {/* Sticky footer */}
+      <Footer />
     </Box>
 
   );

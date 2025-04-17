@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Poppins, Happy_Monkey } from 'next/font/google';
-import Providers from "@/lib/Providers/providers";
-import Footer from "@/modules/Footer/Footer";
+import Providers from "@/modules/Providers/providers";
+
 
 import "./globals.css";
+
 
 
 
@@ -43,8 +44,6 @@ export default function RootLayout({
             <NavBar />
             
             {children}
-
-            {/* <Footer /> */}
 
         </Providers>
 
