@@ -45,7 +45,7 @@ const Community = () => {
           <Typography 
           sx={{ fontSize: '10px', textAlign: 'left'}}
           >
-          "We’re more than a marketplace—we’re a movement. Every order supports Dominican farmers and fishers, preserves traditional agriculture, and helps build sustainable food systems for future generations. Together, we’re growing stronger communities, one harvest at a time."
+          We’re more than a marketplace—we’re a movement. Every order supports Dominican farmers and fishers, preserves traditional agriculture, and helps build sustainable food systems for future generations. Together, we’re growing stronger communities, one harvest at a time.
           </Typography>
 
         </Box>

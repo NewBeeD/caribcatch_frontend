@@ -1,6 +1,5 @@
 import Box  from "@mui/material/Box";
-import Stack  from "@mui/material/Stack";
-import Typography  from "@mui/material/Typography";
+
 
 import Section1 from "@/modules/HomePage/Body1/Section1";
 import OurMission from "@/modules/HomePage/Body1/OurMission";

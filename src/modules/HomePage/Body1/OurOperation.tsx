@@ -2,7 +2,6 @@
 
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import { useTheme } from '@mui/material'
 import { useRef, useState } from 'react'
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
@@ -27,7 +26,7 @@ const OurOperation = () => {
     }
   ]
 
-  const theme = useTheme()
+
   const sliderRef = useRef<Slider>(null)
   const [currentSlide, setCurrentSlide] = useState(0)
 

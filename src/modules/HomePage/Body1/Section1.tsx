@@ -1,7 +1,6 @@
 import Image from "next/image";
 
 import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
 
 const Section1 = () => {
   return (

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Poppins, Happy_Monkey } from 'next/font/google';
+import { Happy_Monkey } from 'next/font/google';
 import Providers from "@/modules/Providers/providers";
 
 
@@ -11,12 +11,7 @@ import "./globals.css";
 import NavBar from "@/modules/Nav/NavigationMenu";
 
 
-const poppins = Poppins({
-  weight: ['300', '400', '500', '700'],
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-poppins',
-});
+
 
 const happyMonkey = Happy_Monkey({
   weight: '400',
