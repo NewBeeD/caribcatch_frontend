@@ -8,6 +8,7 @@ import ProductList from "@/modules/HomePage/Body1/ProductList";
 import BecomeaSupplier from "@/modules/HomePage/Body1/BecomeaSupplier";
 import OurStory from "@/modules/HomePage/Body1/OurStory";
 import Community from "@/modules/HomePage/Body1/Community";
+import Categories from "@/modules/HomePage/Body1/Categories";
 
 import Footer from "@/modules/Footer/Footer";
 
@@ -32,8 +33,9 @@ export default function Home() {
       <Box component="main" sx={{ flex: 1 }}>
         <Section1 />
         <OurMission />
+        <Categories />
         <OurOperation />
-        <ProductList />
+        {/* <ProductList /> */}
         <BecomeaSupplier />
         <OurStory />
         <Community />

@@ -9,25 +9,23 @@ const Community = () => {
   
   return (
     
-    <Stack
-    height={{ xs: 300, sm: 600}}
-    width={{ sm: 900}}
-    direction='row-reverse'
-    textAlign='center'
-    justifyContent='center'
-    alignItems='center'
-    margin='auto'
-    paddingBottom={{ xs: 6}}>
-
-      <Stack
-      minHeight='100%'
-      minWidth='50%'
-      direction='column'
-      paddingTop={{ xs: 6}}
-      paddingLeft={{ xs: 2}}
-      >
-
-        <Box
+<Box
+  height={{ xs: 300, sm: 400 }}
+  width='100%'
+  margin='auto'
+  display="flex"
+  flexDirection='row-reverse'
+>
+  {/* Left Half */}
+  <Box
+    width="50%"
+    p={2}
+    display="flex"
+    flexDirection="column"
+    justifyContent="center"
+  >
+    {/* Content */}
+    <Box
         marginBottom={{ xs: 4}}
         >
 
@@ -43,23 +41,21 @@ const Community = () => {
         <Box>
 
           <Typography 
-          sx={{ fontSize: '10px', textAlign: 'left'}}
+          sx={{ fontSize: {xs: '10px', sm: '16px', md: '20px'}, textAlign: 'left'}}
           >
           We’re more than a marketplace—we’re a movement. Every order supports Dominican farmers and fishers, preserves traditional agriculture, and helps build sustainable food systems for future generations. Together, we’re growing stronger communities, one harvest at a time.
           </Typography>
 
         </Box>
+  </Box>
 
-      </Stack>
-
-      <Box
+  {/* Right Half */}
+  <Box
       minHeight='100%'
       minWidth='50%'
       sx={{ backgroundImage: "url('/Body/Section5/Image2.png')", backgroundSize: "cover",
         backgroundPosition: "center", filter: "grayscale(100%)",}} />
-
-
-    </Stack>
+</Box>
   );
 }
 

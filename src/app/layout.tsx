@@ -5,6 +5,8 @@ import Providers from "@/modules/Providers/providers";
 
 import "./globals.css";
 
+import Box from '@mui/material/Box'
+
 
 
 
@@ -36,9 +38,33 @@ export default function RootLayout({
 
         <Providers>
 
+          <Box
+          sx={{
+            width: '100%',
+            maxWidth: { 
+              xs: '100%',        // Mobile: full width
+              sm: 600,           // Tablet: 600px
+              md: 900,           // Small desktop: 900px
+              lg: 1200,          // Medium desktop: 1200px
+              xl: 1440           // Large screens: 1440px
+            },
+            mx: 'auto',
+            px: { xs: 0, sm: 0 } // Responsive padding
+          }}
+          border={{
+            xs: '2px solid red',
+            sm: '2px solid green',
+            md: '2px solid purple',
+            lg: '2px solid brown',
+            xl: '2px solid purple'
+          }}>
+
             <NavBar />
             
             {children}
+
+          </Box>
+
 
         </Providers>
 

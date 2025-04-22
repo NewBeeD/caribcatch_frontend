@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 
 const Section1 = () => {
   return (
@@ -43,6 +44,7 @@ const Section1 = () => {
           width: "100%",
           height: "100%",
           display: "flex",
+          flexDirection: 'column',
           justifyContent: "center",
           alignItems: "center",
           zIndex: 1,
@@ -57,6 +59,19 @@ const Section1 = () => {
         style={{ maxWidth: "600px", fontSize: "1.5rem" }}>
           Serving the highest quality produce to our quality customers.
         </h1>
+
+        <Button 
+        variant="contained" 
+        sx={{ marginTop: {xs: 8}, width: {xs: 150}, height: {xs: 60}, fontSize: {xs: '20px'}, fontWeight: 900, backgroundColor: '#f68b1f', transform: 'scale(1)',
+        transition: 'transform 0.2s ease, background-color 0.2s ease',
+        '&:hover': {
+          transform: 'scale(1.05)',
+          bgcolor: 'black'
+        }}}>
+          SHOP NOW
+        </Button>
+
+
       </Box>
     </Box>
   );

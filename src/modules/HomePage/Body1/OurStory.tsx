@@ -8,25 +8,25 @@ const OurStory = () => {
   
   
   return (
-    
-    <Stack
-    height={{ xs: 300, sm: 600}}
-    width={{ sm: 900}}
-    direction='row'
-    textAlign='center'
-    justifyContent='center'
-    alignItems='center'
-    margin='auto'>
+  
+  <Box
+    height={{ xs: 300, sm: 400, md: 500 }}
+    width='100%'
+    margin='auto'
+    display="flex"
+  >
+    {/* Left Half */}
 
-      <Stack
-      minHeight='100%'
-      minWidth='50%'
-      direction='column'
-      paddingTop={{ xs: 6}}
-      paddingLeft={{ xs: 2}}
-      >
+    <Box
+      width="50%"
+      p={2}
+      display="flex"
+      flexDirection="column"
+      justifyContent="center"
+    >
+      {/* Content */}
 
-        <Box
+      <Box
         marginBottom={{ xs: 4}}
         >
 
@@ -42,23 +42,27 @@ const OurStory = () => {
         <Box>
 
           <Typography 
-          sx={{ fontSize: '10px', textAlign: 'left'}}
+          sx={{ fontSize: {xs: '10px', sm: '16px', md: '20px'}, textAlign: 'left'}}
           >
           “Born from a fisherman’s boat and a farmer’s field, we started by hand-delivering Dominica’s freshest harvests and catch to neighbors. Today, we’re your direct link to the island’s vibrant flavors—and the hardworking hands that bring them to life.”
           </Typography>
 
         </Box>
-
-      </Stack>
-
-      <Box
-      minHeight='100%'
-      minWidth='50%'
-      sx={{ backgroundImage: "url('/Body/Section5/Image1.png')", backgroundSize: "cover",
-        backgroundPosition: "center", filter: "grayscale(100%)",}} />
+    </Box>
 
 
-    </Stack>
+    {/* Right Half */}
+    <Box
+      width="50%"
+      sx={{
+        backgroundImage: "url('/Body/Section5/Image1.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        filter: "grayscale(100%)"
+      }}
+    />
+  </Box>
+
   );
 }
 

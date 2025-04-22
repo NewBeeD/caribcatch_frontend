@@ -18,9 +18,10 @@ import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import CloseIcon from '@mui/icons-material/Close';
+import Link from 'next/link';
 
 const NAV_MENU = ['Shop', 'Become a Supplier', 'Our Story'];
-const SIDEBAR_MENU = [...NAV_MENU, 'About Us'];
+const SIDEBAR_MENU = [...NAV_MENU, 'Profile'];
 const CART_ITEMS = ['Profile', 'My Account'];
 
 export default function NavBar() {
@@ -68,7 +69,11 @@ export default function NavBar() {
         {SIDEBAR_MENU.map((text) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
-              <ListItemText primary={text} sx={{ textAlign: 'center' }} />
+              
+              <Link href={text === 'Shop'?"/shop":text === 'Become a Supplier'?"/become-a-supplier":text === 'Our Story'?"/ourstory":text === 'Profile'?"/profile":""}>
+
+                <ListItemText primary={text} sx={{ textAlign: 'center' }} />
+              </Link>
             </ListItemButton>
           </ListItem>
         ))}
@@ -79,29 +84,52 @@ export default function NavBar() {
   if (!mounted) return null;
 
   return (
-    
     <AppBar 
-    position="fixed"
-
-    sx={{ backgroundColor: {xs: 'black', sm: 'rgba(0, 0, 0, 0)'}, boxShadow: {sm: 'none'}, zIndex: { lg: 1000}}}>
-      
-      
-      <Container maxWidth="xl">
-        <Toolbar disableGutters sx={{
-          display: 'flex',
-          justifyContent: { xs: 'space-between', lg: 'space-evenly' }
-        }}>
-          {/* Mobile Menu */}
+      position="fixed"
+      sx={{ 
+        backgroundColor: 'black',
+        boxShadow: 'none',
+        zIndex: (theme) => theme.zIndex.drawer + 1
+      }}
+    >
+      <Container 
+        maxWidth={false}
+        sx={{
+          width: '100%',
+          maxWidth: {
+            xs: '100%',    // Mobile: full width
+            sm: 600,       // Tablet: 600px
+            md: 900,       // Small desktop: 900px
+            lg: 1200,      // Medium desktop: 1200px
+            xl: 1440       // Large screens: 1440px
+          },
+          mx: 'auto',
+          px: { xs: 2, sm: 3 }
+        }}
+      >
+        <Toolbar 
+          disableGutters 
+          sx={{
+            height: {
+              xs: 56,  // Mobile
+              sm: 64,  // Tablet
+              md: 72   // Desktop
+            },
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          {/* Mobile Menu Button - shows below md breakpoint */}
           <IconButton
             size="large"
             edge="start"
             color="inherit"
             onClick={openSidebar}
             sx={{ 
-              mr: 2, 
               display: { 
-                xs: mounted ? 'flex' : 'none', 
-                sm: 'none' 
+                xs: 'flex', 
+                md: 'none' 
               } 
             }}
           >
@@ -122,55 +150,89 @@ export default function NavBar() {
             {sidebarContent}
           </Drawer>
 
-          {/* Logo */}
+          {/* Logo - Responsive positioning */}
           <Typography
             variant="h6"
             component="div"
             sx={{
               letterSpacing: 2,
               fontWeight: 'bold',
-              flex: { xs: 1, sm: 'none' },
-              textAlign: { xs: 'center', sm: 'left' },
-              
+              position: { xs: 'absolute', md: 'static' },
+              left: { xs: '50%', md: 'auto' },
+              transform: { xs: 'translateX(-50%)', md: 'none' },
+              fontSize: {
+                xs: '1.25rem',  // Mobile
+                sm: '1.5rem',    // Tablet
+                md: '1.75rem'   // Desktop
+              }
             }}
           >
-            Fish & Fig
+
+            <Link href="/">
+              Fish & Fig
+            </Link>
           </Typography>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation - shows at md breakpoint */}
           <Stack
             direction="row"
-            spacing={4}
+            spacing={{
+              md: 3,  // Small desktop
+              lg: 4,  // Medium desktop
+              xl: 5   // Large desktop
+            }}
             sx={{
               display: { 
                 xs: 'none', 
-                sm: mounted ? 'flex' : 'none' 
+                md: 'flex' 
               },
               flex: 1,
               justifyContent: 'center',
-              maxWidth: 600
+              ml: { md: 3, lg: 4, xl: 5 }
             }}
           >
             {NAV_MENU.map((item) => (
               <Typography
                 key={item}
-                variant="h6"
-                fontWeight={900}
-                sx={{ cursor: 'pointer', '&:hover': { opacity: 0.8 },  }}
+                variant="body1"
+                sx={{ 
+                  cursor: 'pointer', 
+                  '&:hover': { opacity: 0.8 },
+                  fontWeight: {
+                    md: 600,
+                    lg: 700,
+                    xl: 800
+                  },
+                  fontSize: {
+                    md: '0.875rem',
+                    lg: '1rem',
+                    xl: '1.125rem'
+                  }
+                }}
               >
-                {item}
+                <Link 
+                href={item === 'Shop'?"/shop":item === 'Become a Supplier'?"/become-a-supplier":item === 'Our Story'?"/ourstory":item === 'About Us'?"/aboutus":""}>
+
+                  {item}
+                </Link>
               </Typography>
             ))}
           </Stack>
 
-          {/* Cart */}
+          {/* Cart - Responsive spacing */}
           {auth && (
-            <Box>
+            <Box sx={{ 
+              ml: {
+                xs: 'auto',  // Mobile
+                md: 3,       // Small desktop
+                lg: 4,       // Medium desktop
+                xl: 5        // Large desktop
+              }
+            }}>
               <IconButton
                 size="large"
                 color="inherit"
                 onClick={handleMenuOpen}
-                sx={{ ml: 'auto',  }}
               >
                 <ShoppingCartOutlinedIcon />
               </IconButton>
@@ -183,8 +245,16 @@ export default function NavBar() {
                 transformOrigin={{ vertical: 'top', horizontal: 'right' }}
               >
                 {CART_ITEMS.map((item) => (
-                  <MenuItem key={item} onClick={handleMenuClose}>
-                    {item}
+                  <MenuItem 
+                    key={item} 
+                    onClick={handleMenuClose}
+                    sx={{ minWidth: 120 }}
+                  >
+
+                    <Link href={item === 'Profile'?"/profile":item === 'My Account'?"/account":""}>
+                    
+                      {item}
+                    </Link>
                   </MenuItem>
                 ))}
               </Menu>

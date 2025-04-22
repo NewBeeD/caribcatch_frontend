@@ -24,7 +24,8 @@ const OurMission = () => {
 
         <Box 
         textAlign='center'
-        width={{ xs: 300, sm: 600, md: 800}}
+        width={{ xs: 400, sm: 550, md: 800, lg: 900}}
+        paddingX={{ xs: 2}}
         >
           <Typography
           
