@@ -1,8 +1,12 @@
-'use client'
+
 
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
+
+import { Suspense } from 'react'
+
+
 
 import Products from '@/modules/Shop/Products'
 import Footer from '@/modules/Footer/Footer'
@@ -27,7 +31,11 @@ const page = () => {
       {/* Main content container */}
       <Box component="main" sx={{ flex: 1 }}>
 
-        <Products />
+
+        <Suspense >
+          <Products />
+        </Suspense>
+
         
       </Box>
 

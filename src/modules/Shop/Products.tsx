@@ -1,7 +1,15 @@
+'use client'
+
 import { useEffect, useState } from "react";
 import { HttpTypes } from "@medusajs/types"
 import sdk from '@/lib/sdk'
 
+
+import Skeleton from '@mui/material/Skeleton'
+import Box from '@mui/material/Box'
+import Stack from '@mui/material/Stack'
+import ProductCard from "./ProductCard";
+import { Typography } from "@mui/material";
 
 
 export default function Products() {
@@ -18,10 +26,11 @@ export default function Products() {
       return 
     }
 
-    sdk.store.product.list()
+    sdk.store.product.list({
+      fields: `*variants.calculated_price`,
+    })
     .then(({ products: dataProducts }) => {
 
-      console.log(dataProducts)
       setProducts(dataProducts)
       setLoading(false)
     })
@@ -29,27 +38,65 @@ export default function Products() {
 
 
   if (loading) {
-    return <div>Loading products...</div>;
+    return <div><Skeleton sx={{ minHeight: '100vh',
+      width: '100%'}}/></div>;
   }
 
 
   return (
-    <div>
-      <h1>Products</h1>
-      <div className="product-grid">
-        {products.map((product) => (
-          <div key={product.id} className="product-card">
-            <h2>{product.title}</h2>
-            <p>{product.description}</p>
-            {/* Example: Display price */}
-            {/* {product.variants?.[0]?.prices?.[0]?.amount && (
-              <p>
-                ${(product.variants[0].prices[0].amount / 100).toFixed(2)}
-              </p>
-            )} */}
-          </div>
+
+    <Box 
+    mt={{xs: 6, sm: 10}} 
+    px={3}>
+      
+      <Typography variant="h4" gutterBottom>
+        Our Products
+      </Typography>
+
+      <Box
+        component="div"
+        sx={{
+          display: "grid",
+          gap: 2,    // spacing between items
+          // at each breakpoint, 2 columns of equal width:
+          gridTemplateColumns: {
+            xs: "repeat(2, 1fr)",
+            sm: "repeat(2, 1fr)",
+            md: "repeat(3, 1fr)",
+            lg: "repeat(3, 1fr)",
+          },
+        }}
+      >
+        {products.map((p) => (
+          <ProductCard key={p.id} product={p} />
         ))}
-      </div>
-    </div>
+      </Box>
+    </Box>
+    
+    
+    // <Box
+    // border='2px solid green'
+    // marginTop={6}>
+
+    //     <Typography>
+          
+    //     </Typography>
+
+
+    //   <div className="product-grid">
+    //     {products.map((product) => (
+
+    //       <Stack 
+    //       key={product.id} 
+    //       direction={{ xs: 'row', sm: 'column'}} 
+    //       spacing={4}>
+
+    //         <ProductCard product={product} />
+
+    //       </Stack>
+
+    //     ))}
+    //   </div>
+    // </Box>
   );
 }

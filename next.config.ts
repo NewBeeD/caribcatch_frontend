@@ -1,13 +1,20 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
 
+/**
+ * @type {import('next').NextConfig}
+ */
 const nextConfig: NextConfig = {
-  output: "export", // Remove any reference to 'next export'
-  trailingSlash: true,
+  // Enable React's Strict Mode during development
+  reactStrictMode: true,
+  // Allow external image host for next/image
   images: {
-    unoptimized: true,
+    domains: ['medusa-public-images.s3.eu-west-1.amazonaws.com'],
   },
-  // Optional for SPA behavior:
+  // You can uncomment and customize additional settings as needed:
+  // swcMinify: true,
+  // remotePatterns: [
+  //   { protocol: 'https', hostname: 'medusa-public-images.s3.eu-west-1.amazonaws.com', pathname: '/**' },
+  // ],
+}
 
-};
-
-export default nextConfig;
+export default nextConfig
