@@ -60,8 +60,6 @@ const defaultSettings: Settings = {
 
 const ProductImages = ({ images, settings = defaultSettings }: SlickCarouselProps) => {
 
-  console.log(images)
-
   return (
     <Box 
     sx={{ px: 2 }}

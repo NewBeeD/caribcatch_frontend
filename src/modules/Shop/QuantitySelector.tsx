@@ -66,12 +66,12 @@ const QuantitySelector = ({
           '& .MuiOutlinedInput-root': {
             border: 'none',
             borderRadius: 0,
-            width: '60px',
+            width: {xs: '100px'},
             '& input': {
               textAlign: 'center',
               padding: '8px'
             }
-          }
+          },
         }}
         inputProps={{
           min: 1,
