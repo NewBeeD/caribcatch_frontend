@@ -15,10 +15,14 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Stack from '@mui/material/Stack';
+import Badge from '@mui/material/Badge';
 import Container from '@mui/material/Container';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import CloseIcon from '@mui/icons-material/Close';
 import Link from 'next/link';
+
+import sdk from '@/lib/sdk'
+import { HttpTypes } from "@medusajs/types"
 
 const NAV_MENU = ['Shop', 'Become a Supplier', 'Our Story'];
 const SIDEBAR_MENU = [...NAV_MENU, 'Profile'];
@@ -29,6 +33,8 @@ export default function NavBar() {
   const [auth] = useState(true);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  // Changed to store just the count instead of the whole cart
+  const [cartCount, setCartCount] = useState<number>(0);
 
   useEffect(() => {
     setMounted(true);
@@ -69,9 +75,7 @@ export default function NavBar() {
         {SIDEBAR_MENU.map((text) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
-              
-              <Link href={text === 'Shop'?"/shop":text === 'Become a Supplier'?"/become-a-supplier":text === 'Our Story'?"/ourstory":text === 'Profile'?"/profile":""}>
-
+              <Link href={text === 'Shop' ? "/shop" : text === 'Become a Supplier' ? "/become-a-supplier" : text === 'Our Story' ? "/ourstory" : text === 'Profile' ? "/profile" : ""}>
                 <ListItemText primary={text} sx={{ textAlign: 'center' }} />
               </Link>
             </ListItemButton>
@@ -80,6 +84,28 @@ export default function NavBar() {
       </List>
     </Box>
   ), [closeSidebar]);
+
+  useEffect(() => {
+    const fetchCart = async () => {
+      const cartId = localStorage.getItem("cart_id");
+      if (!cartId) {
+        setCartCount(0);
+        return;
+      }
+
+      try {
+        const { cart: dataCart } = await sdk.store.cart.retrieve(cartId);
+        setCartCount(dataCart.items?.length || 0);
+      } catch (error) {
+        console.error('Error fetching cart:', error);
+        setCartCount(0);
+      }
+    };
+
+    if (mounted) {
+      fetchCart();
+    }
+  }, [mounted]);
 
   if (!mounted) return null;
 
@@ -97,11 +123,11 @@ export default function NavBar() {
         sx={{
           width: '100%',
           maxWidth: {
-            xs: '100%',    // Mobile: full width
-            sm: 600,       // Tablet: 600px
-            md: 900,       // Small desktop: 900px
-            lg: 1200,      // Medium desktop: 1200px
-            xl: 1440       // Large screens: 1440px
+            xs: '100%',
+            sm: 600,
+            md: 900,
+            lg: 1200,
+            xl: 1440
           },
           mx: 'auto',
           px: { xs: 2, sm: 3 }
@@ -111,16 +137,16 @@ export default function NavBar() {
           disableGutters 
           sx={{
             height: {
-              xs: 56,  // Mobile
-              sm: 64,  // Tablet
-              md: 72   // Desktop
+              xs: 56,
+              sm: 64,
+              md: 72
             },
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
           }}
         >
-          {/* Mobile Menu Button - shows below md breakpoint */}
+          {/* Mobile Menu Button */}
           <IconButton
             size="large"
             edge="start"
@@ -150,7 +176,7 @@ export default function NavBar() {
             {sidebarContent}
           </Drawer>
 
-          {/* Logo - Responsive positioning */}
+          {/* Logo */}
           <Typography
             variant="h6"
             component="div"
@@ -161,25 +187,24 @@ export default function NavBar() {
               left: { xs: '50%', md: 'auto' },
               transform: { xs: 'translateX(-50%)', md: 'none' },
               fontSize: {
-                xs: '1.25rem',  // Mobile
-                sm: '1.5rem',    // Tablet
-                md: '1.75rem'   // Desktop
+                xs: '1.25rem',
+                sm: '1.5rem',
+                md: '1.75rem'
               }
             }}
           >
-
             <Link href="/">
               Fish & Fig
             </Link>
           </Typography>
 
-          {/* Desktop Navigation - shows at md breakpoint */}
+          {/* Desktop Navigation */}
           <Stack
             direction="row"
             spacing={{
-              md: 3,  // Small desktop
-              lg: 4,  // Medium desktop
-              xl: 5   // Large desktop
+              md: 3,
+              lg: 4,
+              xl: 5
             }}
             sx={{
               display: { 
@@ -211,53 +236,39 @@ export default function NavBar() {
                 }}
               >
                 <Link 
-                href={item === 'Shop'?"/shop":item === 'Become a Supplier'?"/become-a-supplier":item === 'Our Story'?"/ourstory":item === 'About Us'?"/aboutus":""}>
-
+                  href={item === 'Shop' ? "/shop" : item === 'Become a Supplier' ? "/become-a-supplier" : item === 'Our Story' ? "/ourstory" : ""}>
                   {item}
                 </Link>
               </Typography>
             ))}
           </Stack>
 
-          {/* Cart - Responsive spacing */}
+          {/* Cart Section */}
           {auth && (
             <Box sx={{ 
               ml: {
-                xs: 'auto',  // Mobile
-                md: 3,       // Small desktop
-                lg: 4,       // Medium desktop
-                xl: 5        // Large desktop
+                xs: 'auto',
+                md: 3,
+                lg: 4,
+                xl: 5
               }
             }}>
               <IconButton
                 size="large"
                 color="inherit"
-                onClick={handleMenuOpen}
+                component={Link}  // This is the magic prop
+                href="/cart"      // Your target page
               >
-                <ShoppingCartOutlinedIcon />
+                <Badge 
+                  badgeContent={cartCount} 
+                  invisible={cartCount === 0}
+                  color='warning'
+                  max={15}
+                >
+                  <ShoppingCartOutlinedIcon />
+                </Badge>
               </IconButton>
 
-              <Menu
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={handleMenuClose}
-                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-              >
-                {CART_ITEMS.map((item) => (
-                  <MenuItem 
-                    key={item} 
-                    onClick={handleMenuClose}
-                    sx={{ minWidth: 120 }}
-                  >
-
-                    <Link href={item === 'Profile'?"/profile":item === 'My Account'?"/account":""}>
-                    
-                      {item}
-                    </Link>
-                  </MenuItem>
-                ))}
-              </Menu>
             </Box>
           )}
         </Toolbar>

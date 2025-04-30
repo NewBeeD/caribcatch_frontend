@@ -1,19 +1,27 @@
 import type { NextConfig } from 'next'
 
-/**
- * @type {import('next').NextConfig}
- */
 const nextConfig: NextConfig = {
-  // Enable React's Strict Mode during development
   reactStrictMode: true,
-  // Allow external image host for next/image
   images: {
-    domains: ['medusa-public-images.s3.eu-west-1.amazonaws.com'],
+    domains: [
+      'medusa-public-images.s3.eu-west-1.amazonaws.com', // Existing Medusa domain
+      'localhost',       // Add this for local development
+      '127.0.0.1'       // Optional: Covers alternative localhost access
+    ],
   },
-  // You can uncomment and customize additional settings as needed:
-  // swcMinify: true,
+  // Optional remotePatterns (more granular control)
   // remotePatterns: [
-  //   { protocol: 'https', hostname: 'medusa-public-images.s3.eu-west-1.amazonaws.com', pathname: '/**' },
+  //   {
+  //     protocol: 'https',
+  //     hostname: 'medusa-public-images.s3.eu-west-1.amazonaws.com',
+  //     pathname: '/**',
+  //   },
+  //   {
+  //     protocol: 'http',
+  //     hostname: 'localhost',
+  //     port: '9000', // Specify if you want port-specific validation
+  //     pathname: '/static/**',
+  //   },
   // ],
 }
 

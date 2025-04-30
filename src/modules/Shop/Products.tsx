@@ -27,7 +27,7 @@ export default function Products() {
     }
 
     sdk.store.product.list({
-      fields: `*variants.calculated_price`,
+      fields: `*variants.calculated_price, +variants.inventory_quantity`,
     })
     .then(({ products: dataProducts }) => {
 
@@ -47,7 +47,8 @@ export default function Products() {
 
     <Box 
     mt={{xs: 6, sm: 10}} 
-    px={3}>
+    px={3}
+    mb={{ xs: 4}}>
       
       <Typography variant="h4" gutterBottom>
         Our Products

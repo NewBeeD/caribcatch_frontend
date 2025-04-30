@@ -14,6 +14,8 @@ interface ProductCardProps {
 
 const ProductCard = ({ product }: ProductCardProps) => {
   
+  
+  
   return (
 
     <Box>

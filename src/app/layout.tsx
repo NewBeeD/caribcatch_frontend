@@ -51,19 +51,13 @@ export default function RootLayout({
                   xs: '100%',        // Mobile: full width
                   sm: 600,           // Tablet: 600px
                   md: 900,           // Small desktop: 900px
-                  lg: 1200,          // Medium desktop: 1200px
-                  xl: 1440           // Large screens: 1440px
+                  lg: 1000,          // Medium desktop: 1200px
+
                 },
                 mx: 'auto',
                 px: { xs: 0, sm: 0 } // Responsive padding
               }}
-              border={{
-                xs: '2px solid red',
-                sm: '2px solid green',
-                md: '2px solid purple',
-                lg: '2px solid brown',
-                xl: '2px solid purple'
-              }}>
+              >
 
                 <NavBar />
                 

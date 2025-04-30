@@ -5,14 +5,19 @@ import Image from 'next/image';
 
 const ItemDisplay = ({ cartProducts }) => {
   return (
-    <div>
+    <Box
+    marginBottom={{ xs: 2}}
+    border='3px solid #f68b1f'
+    padding={{ xs: 1}}
+    sx={{ borderRadius: '20px'}}>
+
       <Typography variant="h6">{cartProducts.title}</Typography>
 
       <Stack 
         direction="row" 
-        spacing={2} 
         justifyContent="space-between"
         sx={{ width: '100%' }}
+        letterSpacing={2}
       >
         {/* Image Box - Takes 50% width */}
         <Box sx={{
@@ -47,7 +52,7 @@ const ItemDisplay = ({ cartProducts }) => {
           <Typography>Quantity: {cartProducts.quantity}</Typography>
         </Box>
       </Stack>
-    </div>
+    </Box>
   );
 }
 

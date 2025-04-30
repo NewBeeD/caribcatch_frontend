@@ -159,92 +159,115 @@ export default function Product({ params: { handle } }: Params) {
           {!loading && !product && <span>Product not found</span>}
           {product && (
             <>
-              <h1>{product.title}</h1>
-              <ProductImages images={product.images as MedusaImage[]} />
-
-              <Stack
-                marginTop={{ xs: 4 }}
-                justifyContent='center'
-                alignItems='center'
-                textAlign='center'
-                width='100%'
-                paddingY={{ xs: 2 }}
-              >
-                <Box>
-                  <Typography sx={{ paddingLeft: { xs: 2 } }}>
-                    {selectedVariant ? 
-                      `$${selectedPrice.toFixed(2)}` : 
-                      product.options?.length > 0 ?
-                      'Please select all options' :
-                      `Starting at $${product.variants[0].calculated_price?.calculated_amount.toFixed(2)}`
-                    }
-                  </Typography>
-                </Box>
-
-                <Box paddingLeft={{ xs: 2 }} marginTop={{ xs: 0.5 }}>
-                  <QuantitySelector
-                    max={selectedVariant?.inventory_quantity || 
-                        product.variants[0]?.inventory_quantity || 
-                        10}
-                    onQuantityChange={handleQuantityChange}
-                  />
-                </Box>
-              </Stack>
-
-              {product.options?.length > 0 && (
-                <Stack spacing={3} paddingLeft={2}>
-                  {product.options.map((option) => (
-                    <FormControl key={option.id} sx={{ width: 180 }}>
-                      <InputLabel>{option.title}</InputLabel>
-                      <Select
-                        value={selectedValues[option.title] || ''}
-                        label={option.title}
-                        onChange={(e) => handleOptionChange(option.title, e.target.value)}
-                        MenuProps={{
-                          transitionDuration: 0,
-                          PaperProps: {
-                            style: {
-                              maxHeight: 200,
-                            },
-                          },
-                        }}
-                      >
-                        {option.values?.map((optionValue) => (
-                          <MenuItem key={optionValue.id} value={optionValue.value}>
-                            {optionValue.value}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  ))}
-                </Stack>
-              )}
-
-              <Divider sx={{ marginTop: { xs: 4 }}} />
-
-              <Typography variant="h6" sx={{ mt: 2, paddingLeft: 2, fontWeight: 900 }}>
-                ${(selectedPrice * quantity).toFixed(2)}
+              <Typography
+              variant='h3'
+              sx={{ paddingLeft: {xs: 2}}}>
+                {product.title}
               </Typography>
 
-              <Box paddingLeft={{ xs: 2 }} paddingTop={{ xs: 2 }}>
-                <Button
-                  variant='contained'
-                  disabled={!selectedVariant}
-                  onClick={handleAddToCart}
-                  sx={{ 
-                    backgroundColor: '#f68b1f', 
-                    fontWeight: 900, 
-                    width: '40%', 
-                    height: { xs: 50 }, 
-                    letterSpacing: { xs: 2 },
-                    '&:disabled': {
-                      backgroundColor: '#cccccc'
-                    }
-                  }}
+              <Stack
+              direction={{ xs: 'column', sm: 'row'}}>
+
+                <Box
+                width={{xs: '100%', sm: 600, lg: 750}}>
+
+                  <ProductImages images={product.images as MedusaImage[]} />
+
+                </Box>
+
+
+                <Box
+                width={{xs: '100%', sm: 250, lg: 750}}
                 >
-                  {selectedVariant ? 'Add to cart' : 'Select options'}
-                </Button>
-              </Box>
+
+                    <Stack
+                      marginTop={{ xs: 4 }}
+                      justifyContent='center'
+                      alignItems='center'
+                      textAlign='center'
+                      width='100%'
+                      paddingY={{ xs: 2 }}
+                    >
+                      <Box>
+                        <Typography sx={{ paddingLeft: { xs: 2 } }}>
+                          {selectedVariant ? 
+                            `$${selectedPrice.toFixed(2)}` : 
+                            product.options?.length > 0 ?
+                            'Please select all options' :
+                            `Starting at $${product.variants[0].calculated_price?.calculated_amount.toFixed(2)}`
+                          }
+                        </Typography>
+                      </Box>
+
+                      <Box paddingLeft={{ xs: 2 }} marginTop={{ xs: 0.5 }}>
+                        <QuantitySelector
+                          max={selectedVariant?.inventory_quantity || 
+                              product.variants[0]?.inventory_quantity || 
+                              10}
+                          onQuantityChange={handleQuantityChange}
+                        />
+                      </Box>
+                    </Stack>
+
+                    {product.options?.length > 0 && (
+                      <Stack spacing={3} paddingLeft={2}>
+                        {product.options.map((option) => (
+                          <FormControl key={option.id} sx={{ width: 180 }}>
+                            <InputLabel>{option.title}</InputLabel>
+                            <Select
+                              value={selectedValues[option.title] || ''}
+                              label={option.title}
+                              onChange={(e) => handleOptionChange(option.title, e.target.value)}
+                              MenuProps={{
+                                transitionDuration: 0,
+                                PaperProps: {
+                                  style: {
+                                    maxHeight: 200,
+                                  },
+                                },
+                              }}
+                            >
+                              {option.values?.map((optionValue) => (
+                                <MenuItem key={optionValue.id} value={optionValue.value}>
+                                  {optionValue.value}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                          </FormControl>
+                        ))}
+                      </Stack>
+                    )}
+
+                    <Divider sx={{ marginTop: { xs: 4 }}} />
+
+                    <Typography variant="h6" sx={{ mt: 2, paddingLeft: 2, fontWeight: 900 }}>
+                      ${(selectedPrice * quantity).toFixed(2)}
+                    </Typography>
+
+                    <Box paddingLeft={{ xs: 2 }} paddingTop={{ xs: 2 }}>
+                      <Button
+                        variant='contained'
+                        disabled={!selectedVariant}
+                        onClick={handleAddToCart}
+                        sx={{ 
+                          backgroundColor: '#f68b1f', 
+                          fontWeight: 900, 
+                          width: '40%', 
+                          height: { xs: 50 }, 
+                          letterSpacing: { xs: 2 },
+                          '&:disabled': {
+                            backgroundColor: '#cccccc'
+                          }
+                        }}
+                      >
+                        {selectedVariant ? 'Add to cart' : 'Select options'}
+                      </Button>
+                    </Box>
+
+
+                </Box>
+
+              </Stack>
 
 
               <Box

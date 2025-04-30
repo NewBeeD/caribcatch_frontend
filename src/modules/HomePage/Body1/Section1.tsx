@@ -26,7 +26,7 @@ const Section1 = () => {
         }}
       >
         <Image
-          src="/Body/Section1/MainImage1.png"
+          src="/Body/Section1/MainImage2.jpg"
           fill
           style={{ objectFit: "cover" }}
           priority
