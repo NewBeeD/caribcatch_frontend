@@ -85,13 +85,13 @@ export default function CheckoutPage() {
           {currentStep === 1 && (
           <CustomerInfo 
             onNext={() => setCurrentStep(2)} 
-            onBack={() => setCurrentStep(0)}
+            onBack={() => setCurrentStep(1)}
           />
           )}
           {currentStep === 2 && (
             <ShippingAddress 
               onNext={() => setCurrentStep(3)} 
-              onBack={() => setCurrentStep(1)}
+              onBack={() => setCurrentStep(2)}
             />
           )}
           {currentStep === 3 && (

@@ -57,10 +57,7 @@ export default function RootLayout({
                 mx: 'auto',
                 px: { xs: 0, sm: 0 } // Responsive padding
               }}
-              >
-
-                <NavBar />
-                
+              >                
                 {children}
 
               </Box>
