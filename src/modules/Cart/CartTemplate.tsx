@@ -7,6 +7,7 @@ import { HttpTypes } from "@medusajs/types"
 import sdk from "@/lib/sdk"
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
+import Link from 'next/link'
 
 import ItemDisplay from './ItemDisplay'
 import { Button } from '@mui/material'
@@ -102,6 +103,8 @@ export default function Cart() {
         marginY={{ xs: 4}}
         >
           <Button 
+          component={Link}
+          href="/checkout"
           variant='contained' 
           sx={{ width: {xs: 170}, height: {xs: 50}, fontSize: {xs: '15px'}, fontWeight: 900, backgroundColor: '#f68b1f'}}>
             Go To Check Out

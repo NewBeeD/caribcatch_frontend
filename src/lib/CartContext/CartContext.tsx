@@ -9,8 +9,13 @@ type CartContextType = {
   addToCart: (variantId: string, quantity: number) => Promise<HttpTypes.StoreCart>
   updateItemQuantity: (itemId: string, quantity: number) => Promise<HttpTypes.StoreCart>
   removeItem: (itemId: string) => Promise<HttpTypes.StoreCart>
-  clearCart: () => void
+  clearCart: () => void,
+  setEmail: (email: string) => Promise<void>
+  setShippingAddress: (address: any) => Promise<void>
+  completeCheckout: () => Promise<HttpTypes.StoreOrder>
 }
+
+
 
 const CartContext = createContext<CartContextType | null>(null)
 
@@ -133,6 +138,47 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     createNewCart()
   }
 
+  // Add to CartProvider component
+const setEmail = async (email: string) => {
+  if (!cart) throw new Error("Cart not initialized")
+  
+  setLoading(true)
+  try {
+    const { cart: updatedCart } = await sdk.store.cart.update(cart.id, { email })
+    setCart(updatedCart)
+  } finally {
+    setLoading(false)
+  }
+}
+
+const setShippingAddress = async (address: any) => {
+  if (!cart) throw new Error("Cart not initialized")
+  
+  setLoading(true)
+  try {
+    const { cart: updatedCart } = await sdk.store.cart.update(cart.id, {
+      shipping_address: address
+    })
+    setCart(updatedCart)
+  } finally {
+    setLoading(false)
+  }
+}
+
+const completeCheckout = async () => {
+  if (!cart) throw new Error("Cart not initialized")
+  
+  setLoading(true)
+  try {
+    const { order } = await sdk.store.order.complete(cart.id)
+    clearCart()
+    return order
+  } finally {
+    setLoading(false)
+  }
+}
+
+
   return (
     <CartContext.Provider value={{
       cart,
@@ -141,6 +187,9 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       updateItemQuantity,
       removeItem,
       clearCart,
+      setEmail,
+      setShippingAddress,
+      completeCheckout
     }}>
       {children}
     </CartContext.Provider>

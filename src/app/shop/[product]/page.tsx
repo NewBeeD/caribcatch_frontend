@@ -161,7 +161,7 @@ export default function Product({ params: { handle } }: Params) {
             <>
               <Typography
               variant='h3'
-              sx={{ paddingLeft: {xs: 2}}}>
+              sx={{ paddingLeft: {xs: 2}, paddingBottom: {xs: 2}}}>
                 {product.title}
               </Typography>
 
@@ -183,8 +183,7 @@ export default function Product({ params: { handle } }: Params) {
                     <Stack
                       marginTop={{ xs: 4 }}
                       justifyContent='center'
-                      alignItems='center'
-                      textAlign='center'
+                      alignItems='left'
                       width='100%'
                       paddingY={{ xs: 2 }}
                     >
@@ -199,7 +198,7 @@ export default function Product({ params: { handle } }: Params) {
                         </Typography>
                       </Box>
 
-                      <Box paddingLeft={{ xs: 2 }} marginTop={{ xs: 0.5 }}>
+                      <Box paddingLeft={{ xs: 2 }} marginY={{ xs: 2 }}>
                         <QuantitySelector
                           max={selectedVariant?.inventory_quantity || 
                               product.variants[0]?.inventory_quantity || 
@@ -210,10 +209,14 @@ export default function Product({ params: { handle } }: Params) {
                     </Stack>
 
                     {product.options?.length > 0 && (
-                      <Stack spacing={3} paddingLeft={2}>
+                      <Stack 
+                      spacing={{ xs: 4}} 
+                      paddingLeft={2}>
                         {product.options.map((option) => (
                           <FormControl key={option.id} sx={{ width: 180 }}>
+                            
                             <InputLabel>{option.title}</InputLabel>
+                            
                             <Select
                               value={selectedValues[option.title] || ''}
                               label={option.title}
@@ -223,16 +226,33 @@ export default function Product({ params: { handle } }: Params) {
                                 PaperProps: {
                                   style: {
                                     maxHeight: 200,
+                                    sx: {
+                                      backgroundColor: '#e3f2fd' // Dropdown menu background
+                                    }
                                   },
                                 },
                               }}
-                            >
+                              sx={{
+                                backgroundColor: '#f0f0f0',  // Default background
+                                '& .MuiSelect-select': {
+                                  backgroundColor: '#e3f2fd', // Input area background
+                                },
+                                '& .MuiOutlinedInput-notchedOutline': {
+                                  borderColor: '#90caf9',     // Border color
+                                },
+                                '&:hover .MuiOutlinedInput-notchedOutline': {
+                                  borderColor: '#42a5f5',     // Hover border
+                                }
+                              }}                              
+                              >
+
                               {option.values?.map((optionValue) => (
                                 <MenuItem key={optionValue.id} value={optionValue.value}>
                                   {optionValue.value}
                                 </MenuItem>
                               ))}
                             </Select>
+
                           </FormControl>
                         ))}
                       </Stack>

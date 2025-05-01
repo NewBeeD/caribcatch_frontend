@@ -7,9 +7,10 @@ import sdk from '@/lib/sdk'
 
 import Skeleton from '@mui/material/Skeleton'
 import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
 import Stack from '@mui/material/Stack'
 import ProductCard from "./ProductCard";
-import { Typography } from "@mui/material";
+
 
 
 export default function Products() {
