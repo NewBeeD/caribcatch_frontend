@@ -23,6 +23,10 @@ export default function PaymentDetails({
   const [paymentError, setPaymentError] = useState<string | null>(null)
   const [stripe, setStripe] = useState<any>(null)
   const [cardElement, setCardElement] = useState<any>(null)
+
+
+  // console.log('From payment page',cart);
+  
   
 
   // useEffect(() => {

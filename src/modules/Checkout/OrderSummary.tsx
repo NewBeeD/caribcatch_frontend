@@ -12,6 +12,11 @@ import OrderSummaryImages from "./OrderSummaryImages";
 
 export default function OrderSummary() {
   const { cart } = useCart()
+
+
+  console.log(cart);
+  
+  
   
 
   const formatPrice = (amount: number): string => {
@@ -69,7 +74,7 @@ export default function OrderSummary() {
 
           <Box>
             <Typography variant="body2">
-              ${cart.subtotal}
+              {formatPrice(cart.original_item_subtotal)}
             </Typography>
           </Box>
 
@@ -88,7 +93,7 @@ export default function OrderSummary() {
 
           <Box>
             <Typography variant="body2">
-              ${cart.shipping_total}
+              {formatPrice(cart.shipping_total)}
             </Typography>
           </Box>
 
@@ -114,7 +119,7 @@ export default function OrderSummary() {
             <Typography 
             fontWeight={900}
             variant="h6">
-              ${cart.total}
+              {formatPrice(cart.total)}
             </Typography>
           </Box>
 
@@ -124,14 +129,6 @@ export default function OrderSummary() {
 
       </Stack>
 
-
-      
-
-
-
-
-
-      
 
     </Paper>
   )

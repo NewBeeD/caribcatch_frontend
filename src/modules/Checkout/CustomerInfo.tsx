@@ -1,6 +1,6 @@
 'use client'
 import { useCart } from "@/lib/CartContext/CartContext"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
@@ -10,6 +10,13 @@ import Select from '@mui/material/Select'
 import Stack from '@mui/material/Stack'
 import InputLabel from '@mui/material/InputLabel'
 import FormControl from '@mui/material/FormControl'
+
+import { updateShippingMethod } from "@/lib/UpdateShippingOrder/ShippingOrderChange"
+
+import { HttpTypes } from "@medusajs/types"
+import sdk  from "@/lib/sdk"
+
+
 
 interface CustomerInfoProps {
   onNext: () => void
@@ -61,28 +68,80 @@ const addresses_raw = [
 
 export default function CustomerInfo({ onNext, onBack }: CustomerInfoProps) {
 
-  const { setEmail } = useCart()
+  const { setEmail, cart, updateCart } = useCart()
   const [email, setEmailValue] = useState('')
   const { setShippingAddress } = useCart()
   const { region } = useRegion()
   const [addresses, setAddresses] = useState(addresses_raw);
 
 
+  const [loading, setLoading] = useState(true)
+  const [shippingMethod, setShippingMethod] = useState(
+    cart?.shipping_methods?.[0]?.shipping_option_id || ""
+  )
+  const [shippingOptions, setShippingOptions] = useState<
+    HttpTypes.StoreCartShippingOption[]
+  >([])
+
+
   const [address, setAddress] = useState({
     first_name: '',
     last_name: '',
     address_1: '',
+    address_2: '',
+    province: '',
     city: '',
     country_code: region?.countries[0]?.iso_2 || '',
     postal_code: '',
+    phone: '',
   })
 
 
 
   const handleSubmit = async (e: React.FormEvent) => {
+    
     e.preventDefault()
-    await setEmail(email)
-    onNext()
+
+    try {
+
+      await setEmail(email)
+      await setShippingAddress(address)
+      await updateCart({
+        shippingMethodData: {
+          option_id: shippingMethod,
+          data: {
+            // TODO add any data necessary for
+            // fulfillment provider
+          },
+        },
+      })
+      .then(() => {
+        setLoading(false)
+        onNext()
+      })
+
+      // const result = await updateShippingMethod(
+      //   {
+      //     orderId: "cart_01JSWWH3JX7KBG3PDH718QEXHP",   // string
+      //     actionId: "orchac_123", // string
+      //     customData: { 
+      //       custom_amount: 10    // number (now properly typed)
+      //     }
+      //   },
+      //   'adminToken' // string adminToken
+      // );
+      
+
+      
+    } catch (error) {
+
+      console.error("Update error:", error.message)
+    // Handle error (show error message, etc.)
+      
+    }
+    
+    
+    // onNext()
   }
 
 
@@ -95,6 +154,30 @@ export default function CustomerInfo({ onNext, onBack }: CustomerInfoProps) {
   const handleChange = (field: keyof typeof address) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setAddress(prev => ({ ...prev, [field]: e.target.value }))
   }
+
+
+  useEffect(() => {
+  
+    
+    if (shippingOptions.length || !cart) {
+      return
+    }
+  
+    sdk.store.fulfillment.listCartOptions({
+      cart_id: cart.id || "",
+    })
+    .then(({ shipping_options }) => {
+      
+      setShippingOptions(shipping_options)
+      setShippingMethod(shipping_options[0].id)
+      
+      setLoading(false)
+    })
+  }, [cart?.id])
+
+
+
+
 
   return (
 <Box component="form" onSubmit={handleSubmit}>
@@ -156,6 +239,7 @@ export default function CustomerInfo({ onNext, onBack }: CustomerInfoProps) {
               </FormControl>
             </Grid>
 
+
             {/* City/Country/Postal Code */}
             <Grid item xs={12} sm={6}>
               <TextField
@@ -198,6 +282,16 @@ export default function CustomerInfo({ onNext, onBack }: CustomerInfoProps) {
                 label="Postal Code"
                 value={address.postal_code}
                 onChange={handleChange('postal_code')}
+                required
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Phone Number"
+                value={address.phone}
+                onChange={handleChange('phone')}
                 required
               />
             </Grid>

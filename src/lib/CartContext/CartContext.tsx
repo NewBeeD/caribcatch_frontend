@@ -3,10 +3,14 @@ import { createContext, useContext, useEffect, useState } from "react"
 import { HttpTypes } from "@medusajs/types"
 import sdk  from "@/lib/sdk"
 
+import { useRegion } from "@/lib/RegionContext/RegionContext"
+
 type CartContextType = {
   cart?: HttpTypes.StoreCart
   loading: boolean
   addToCart: (variantId: string, quantity: number) => Promise<HttpTypes.StoreCart>
+  updateCart: (data: {updateData?: HttpTypes.StoreUpdateCart,shippingMethodData?: HttpTypes.StoreAddCartShippingMethods}) => Promise<HttpTypes.StoreCart | undefined>
+  refreshCart: () => Promise<HttpTypes.StoreCart | undefined>
   updateItemQuantity: (itemId: string, quantity: number) => Promise<HttpTypes.StoreCart>
   removeItem: (itemId: string) => Promise<HttpTypes.StoreCart>
   clearCart: () => void,
@@ -22,10 +26,23 @@ const CartContext = createContext<CartContextType | null>(null)
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   
   const [cart, setCart] = useState<HttpTypes.StoreCart>()
+  const { region } = useRegion()
   const [loading, setLoading] = useState(true)
 
   // Initialize cart on component mount
   useEffect(() => {
+
+  // // added this recently
+  //   if (!region) {
+  //     return
+  //   }
+  //   if (cart) {
+  //     localStorage.setItem("cart_id", cart.id)
+  //     return
+  //   }
+    
+
+
     const cartId = localStorage.getItem("cart_id")
     
     if (cartId) {
@@ -89,6 +106,106 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       throw error
     }
   }
+
+
+  // added this recently
+  const updateCart = async ({
+    updateData,
+    shippingMethodData,
+  }: {
+    updateData?: HttpTypes.StoreUpdateCart,
+    shippingMethodData?: HttpTypes.StoreAddCartShippingMethods
+  }) => {
+
+
+    if (!updateData && !shippingMethodData) {
+      return cart
+    }
+
+    let returnedCart = cart
+
+    if (updateData) {
+
+      returnedCart = (await sdk.store.cart.update(cart!.id, updateData)).cart
+    }
+    
+    if (shippingMethodData) {
+
+      // returnedCart = (await sdk.store.cart.addShippingMethod(cart!.id, shippingMethodData)).cart
+
+      const response = await sdk.store.cart.addShippingMethod(cart!.id, shippingMethodData);
+      
+      returnedCart = response.cart; // Use the response
+    }
+    
+    setCart(returnedCart)
+  
+    return returnedCart
+  }
+
+  // In your cart context's updateCart function
+// const updateCart = async ({
+//   updateData,
+//   shippingMethodData,
+// }: {
+//   updateData?: HttpTypes.StoreUpdateCart;
+//   shippingMethodData?: {
+//     option_id: string;
+//     data?: Record<string, unknown>;
+//   };
+// }) => {
+//   if (!cart) throw new Error("Cart not initialized");
+  
+//   let updatedCart = cart;
+
+//   try {
+//     if (updateData) {
+//       const response = await sdk.store.cart.update(cart.id, updateData);
+//       updatedCart = response.cart;
+//     }
+
+//     if (shippingMethodData) {
+//       // First validate shipping option
+//       const { shipping_options } = await sdk.store.fulfillment.listCartOptions(cart.id);
+      
+//       if (!shipping_options.some(so => so.id === shippingMethodData.option_id)) {
+//         throw new Error("Invalid shipping option selected");
+//       }
+
+//       const response = await sdk.store.cart.addShippingMethod(cart.id, {
+//         option_id: shippingMethodData.option_id,
+//         data: shippingMethodData.data || {}
+//       });
+      
+//       updatedCart = response.cart;
+//     }
+
+//     setCart(updatedCart);
+//     return updatedCart;
+//   } catch (error) {
+//     console.error("Cart update failed:", error);
+//     throw error;
+//   }
+// };
+
+  // added this recently
+  const refreshCart = async () => {
+    if (!region) {
+      return
+    }
+  
+    const { cart: dataCart } = await sdk.store.cart.create({
+      region_id: region.id,
+    })
+  
+    localStorage.setItem("cart_id", dataCart.id)
+    setCart(dataCart)
+  
+    return dataCart
+  }
+  
+  // TODO add addToCart function
+  
 
   const updateItemQuantity = async (itemId: string, quantity: number) => {
     if (!cart) {
@@ -184,6 +301,8 @@ const completeCheckout = async () => {
       cart,
       loading,
       addToCart,
+      updateCart,
+      refreshCart,
       updateItemQuantity,
       removeItem,
       clearCart,
